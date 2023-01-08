@@ -1,13 +1,26 @@
+import { useState } from 'react'
+
+const categoriesArray = ['Все', 'Мясные', 'Вегетарианская', 'Гриль', 'Острые', 'Закрытые']
+
 const Categories = () => {
+  let [active, setActive] = useState(0)
+
   return (
-    <div class="categories">
+    <div className="categories">
       <ul>
-        <li class="active">Все</li>
-        <li>Мясные</li>
-        <li>Вегетарианская</li>
-        <li>Гриль</li>
-        <li>Острые</li>
-        <li>Закрытые</li>
+        {categoriesArray.map((item, index) => {
+          return (
+            <li
+              key={index}
+              onClick={() => {
+                setActive(index)
+              }}
+              className={active === index ? 'active' : ''}
+            >
+              {item}
+            </li>
+          )
+        })}
       </ul>
     </div>
   )
