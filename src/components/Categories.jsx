@@ -4,9 +4,7 @@ const categoriesArray = ['Все', 'Мясные', 'Вегетарианская
 
 const Categories = () => {
   let [active, setActive] = useState(0)
-  const addActive = (index) => {
-    setActive(index)
-  }
+
   return (
     <div className="categories">
       <ul>
@@ -15,7 +13,7 @@ const Categories = () => {
             <li
               key={index}
               onClick={() => {
-                addActive(index)
+                setActive(index)
               }}
               className={active === index ? 'active' : ''}
             >
