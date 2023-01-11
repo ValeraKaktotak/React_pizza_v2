@@ -7,7 +7,6 @@ import './scss/app.scss'
 import { useEffect, useState } from 'react'
 
 function App() {
-  // https://63be806cf5cfc0949b58f105.mockapi.io/items
   let [pizzas, setPizzas] = useState([])
   let [isLoading, setIsLoading] = useState(false)
 
