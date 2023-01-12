@@ -2,7 +2,7 @@ import { useState } from 'react'
 
 const sortList = ['популярности', 'цене', 'алфавиту']
 
-const Sort = () => {
+function Sort() {
   let [open, setOpen] = useState(false)
   let [sortType, setSortType] = useState(0)
 
