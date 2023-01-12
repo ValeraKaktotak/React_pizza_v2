@@ -1,5 +1,5 @@
 import logo from 'assets/img/pizza-logo.svg'
-const Header = () => {
+function Header() {
   return (
     <div className="header">
       <div className="container">

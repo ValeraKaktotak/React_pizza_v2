@@ -2,7 +2,7 @@ import { useState } from 'react'
 
 const categoriesArray = ['Все', 'Мясные', 'Вегетарианская', 'Гриль', 'Острые', 'Закрытые']
 
-const Categories = () => {
+function Categories() {
   let [active, setActive] = useState(0)
 
   return (

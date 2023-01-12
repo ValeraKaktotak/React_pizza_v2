@@ -1,5 +1,6 @@
 import Header from 'components/Header'
 import Home from 'components/pages/Home'
+import NotFound from 'components/pages/NotFound'
 import 'scss/app.scss'
 
 function App() {
@@ -8,7 +9,8 @@ function App() {
       <Header />
       <div className="content">
         <div className="container">
-          <Home />
+          {/* <Home /> */}
+          <NotFound />
         </div>
       </div>
     </div>
