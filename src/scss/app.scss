@@ -66,7 +66,10 @@ body {
     justify-content: space-between;
     align-items: center;
   }
-
+  &__items {
+    display: flex;
+    flex-direction: column;
+  }
   .content__title {
     display: flex;
     align-items: center;
