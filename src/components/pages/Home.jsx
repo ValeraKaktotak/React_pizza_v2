@@ -7,26 +7,29 @@ import Skeleton from 'components/PizzaBlock/Skeleton'
 
 function Home() {
   let [pizzas, setPizzas] = useState([])
-  let [isLoading, setIsLoading] = useState(false)
+  let [isLoading, setIsLoading] = useState(true)
+
+  let [activeCategory, setActiveCategory] = useState(0)
 
   useEffect(() => {
-    fetch('https://63be806cf5cfc0949b58f105.mockapi.io/items')
+    setIsLoading(true)
+    fetch(`https://63be806cf5cfc0949b58f105.mockapi.io/items?category=${activeCategory}`)
       .then((resp) => resp.json())
       .then((resp) => {
         setPizzas(resp)
-        setIsLoading(true)
+        setIsLoading(false)
       })
     window.scrollTo(0, 0)
-  }, [])
+  }, [activeCategory])
   return (
     <div className="container">
       <div className="content__top">
-        <Categories />
+        <Categories activeCategory={activeCategory} changeCategory={(id) => setActiveCategory(id)} />
         <Sort />
       </div>
       <h2 className="content__title">Все пиццы</h2>
       <div className="content__items">
-        {!isLoading
+        {isLoading
           ? [...new Array(6)].map((_, index) => <Skeleton key={index} />)
           : pizzas.map((item, index) => <PizzaBlock key={index} {...item} />)}
       </div>

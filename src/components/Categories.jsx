@@ -1,10 +1,6 @@
-import { useState } from 'react'
-
 const categoriesArray = ['Все', 'Мясные', 'Вегетарианская', 'Гриль', 'Острые', 'Закрытые']
 
-function Categories() {
-  let [active, setActive] = useState(0)
-
+function Categories({ categoryValue, changeCategory }) {
   return (
     <div className="categories">
       <ul>
@@ -13,9 +9,9 @@ function Categories() {
             <li
               key={index}
               onClick={() => {
-                setActive(index)
+                changeCategory(index)
               }}
-              className={active === index ? 'active' : ''}
+              className={categoryValue === index ? 'active' : ''}
             >
               {item}
             </li>
