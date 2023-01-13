@@ -1,6 +1,6 @@
 const categoriesArray = ['Все', 'Мясные', 'Вегетарианская', 'Гриль', 'Острые', 'Закрытые']
 
-function Categories({ categoryValue, changeCategory }) {
+function Categories({ categoryValue, onChangeCategory }) {
   return (
     <div className="categories">
       <ul>
@@ -9,7 +9,7 @@ function Categories({ categoryValue, changeCategory }) {
             <li
               key={index}
               onClick={() => {
-                changeCategory(index)
+                onChangeCategory(index)
               }}
               className={categoryValue === index ? 'active' : ''}
             >
