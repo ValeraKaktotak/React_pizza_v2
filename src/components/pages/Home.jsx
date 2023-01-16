@@ -5,7 +5,7 @@ import Sort from 'components/Sort'
 import PizzaBlock from 'components/PizzaBlock'
 import Skeleton from 'components/PizzaBlock/Skeleton'
 
-function Home() {
+function Home({ searchValue }) {
   let [pizzas, setPizzas] = useState([])
   let [isLoading, setIsLoading] = useState(true)
 
@@ -19,8 +19,8 @@ function Home() {
   useEffect(() => {
     setIsLoading(true)
     fetch(
-      `https://63be806cf5cfc0949b58f105.mockapi.io/items?${
-        activeCategory > 0 ? `category=${activeCategory}` : ''
+      `https://63be806cf5cfc0949b58f105.mockapi.io/items?${activeCategory > 0 ? `category=${activeCategory}` : ''}${
+        searchValue !== '' ? `&search=${searchValue}` : ''
       }&sortBy=${sortType.type}&order=${sortOrder ? `asc` : `desc`}`,
     )
       .then((resp) => resp.json())
@@ -29,7 +29,7 @@ function Home() {
         setIsLoading(false)
       })
     window.scrollTo(0, 0)
-  }, [activeCategory, sortType, sortOrder])
+  }, [activeCategory, sortType, sortOrder, searchValue])
   return (
     <div className="container">
       <div className="content__top">
