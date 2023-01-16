@@ -4,6 +4,7 @@ import Categories from 'components/Categories'
 import Sort from 'components/Sort'
 import PizzaBlock from 'components/PizzaBlock'
 import Skeleton from 'components/PizzaBlock/Skeleton'
+import Paginator from 'components/Paginator'
 
 function Home({ searchValue }) {
   let [pizzas, setPizzas] = useState([])
@@ -15,13 +16,14 @@ function Home({ searchValue }) {
     type: 'rating',
   })
   let [sortOrder, setSortOrder] = useState(true)
+  let [paginatorPage, setPaginatorPage] = useState(1)
 
   useEffect(() => {
     setIsLoading(true)
     fetch(
       `https://63be806cf5cfc0949b58f105.mockapi.io/items?${activeCategory > 0 ? `category=${activeCategory}` : ''}${
         searchValue !== '' ? `&search=${searchValue}` : ''
-      }&sortBy=${sortType.type}&order=${sortOrder ? `asc` : `desc`}`,
+      }&sortBy=${sortType.type}&order=${sortOrder ? `asc` : `desc`}&page=${paginatorPage}&limit=4`,
     )
       .then((resp) => resp.json())
       .then((resp) => {
@@ -29,7 +31,7 @@ function Home({ searchValue }) {
         setIsLoading(false)
       })
     window.scrollTo(0, 0)
-  }, [activeCategory, sortType, sortOrder, searchValue])
+  }, [activeCategory, sortType, sortOrder, searchValue, paginatorPage])
   return (
     <div className="container">
       <div className="content__top">
@@ -54,6 +56,11 @@ function Home({ searchValue }) {
           ? [...new Array(6)].map((_, index) => <Skeleton key={index} />)
           : pizzas.map((item, index) => <PizzaBlock key={index} {...item} />)}
       </div>
+      <Paginator
+        handlePageClick={(number) => {
+          setPaginatorPage(number)
+        }}
+      />
     </div>
   )
 }
