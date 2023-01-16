@@ -1,12 +1,13 @@
-import { useEffect, useState } from 'react'
-
+import { useContext, useEffect, useState } from 'react'
+import { SearchContext } from 'App'
 import Categories from 'components/Categories'
 import Sort from 'components/Sort'
 import PizzaBlock from 'components/PizzaBlock'
 import Skeleton from 'components/PizzaBlock/Skeleton'
 import Paginator from 'components/Paginator'
 
-function Home({ searchValue }) {
+function Home() {
+  let searchValue = useContext(SearchContext).searchValue
   let [pizzas, setPizzas] = useState([])
   let [isLoading, setIsLoading] = useState(true)
 
