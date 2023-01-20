@@ -8,7 +8,9 @@ import Paginator from 'components/Paginator'
 
 function Home() {
   let searchValue = useContext(SearchContext).searchValue
+
   let [pizzas, setPizzas] = useState([])
+
   let [isLoading, setIsLoading] = useState(true)
 
   let [activeCategory, setActiveCategory] = useState(0)
@@ -17,6 +19,7 @@ function Home() {
     type: 'rating',
   })
   let [sortOrder, setSortOrder] = useState(true)
+
   let [paginatorPage, setPaginatorPage] = useState(1)
 
   useEffect(() => {
