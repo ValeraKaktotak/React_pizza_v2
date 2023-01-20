@@ -5,8 +5,7 @@ import Sort from 'components/Sort'
 import PizzaBlock from 'components/PizzaBlock'
 import Skeleton from 'components/PizzaBlock/Skeleton'
 import Paginator from 'components/Paginator'
-import { addFilter } from 'redux/slices/filterSlice'
-import { changeSortType, changeSortOrder } from 'redux/slices/sortSlice'
+import { addFilter, changeSortType, changeSortOrder } from 'redux/slices/filterSlice'
 
 function Home() {
   const dispatch = useDispatch()
@@ -18,12 +17,12 @@ function Home() {
   let [pizzas, setPizzas] = useState([])
 
   //filter +
-  const filterCategory = useSelector((state) => state.filterReducer.filterValue)
+  const filterCategory = useSelector((state) => state.filterReducer.categoryValue)
 
   //sort +
-  const sortType = useSelector((state) => state.sortReducer.sortType)
+  const sortType = useSelector((state) => state.filterReducer.sortType)
   //sort_asc_desc +
-  const sortOrder = useSelector((state) => state.sortReducer.sortOrder)
+  const sortOrder = useSelector((state) => state.filterReducer.sortOrder)
 
   let [isLoading, setIsLoading] = useState(true)
   let [paginatorPage, setPaginatorPage] = useState(1)
