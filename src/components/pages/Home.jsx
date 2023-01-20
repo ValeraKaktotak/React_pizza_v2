@@ -1,28 +1,31 @@
-import { useContext, useEffect, useState } from 'react'
-import { SearchContext } from 'App'
+import { useEffect, useState } from 'react'
+import { useSelector, useDispatch } from 'react-redux'
 import Categories from 'components/Categories'
 import Sort from 'components/Sort'
 import PizzaBlock from 'components/PizzaBlock'
 import Skeleton from 'components/PizzaBlock/Skeleton'
 import Paginator from 'components/Paginator'
+import { changeCategory } from 'redux/slices/filterSlice'
 
 function Home() {
-  let searchValue = useContext(SearchContext).searchValue
-  let [pizzas, setPizzas] = useState([])
-  let [isLoading, setIsLoading] = useState(true)
+  const dispatch = useDispatch()
 
-  let [activeCategory, setActiveCategory] = useState(0)
-  let [sortType, setSortType] = useState({
-    name: 'популярности',
-    type: 'rating',
-  })
-  let [sortOrder, setSortOrder] = useState(true)
+  // search reducer
+  const searchValue = useSelector((state) => state.searchReducer.searchValue)
+
+  //main pizzas
+  let [pizzas, setPizzas] = useState([])
+
+  //filter reducer
+  const { categoryValue, sortType, sortOrder } = useSelector((state) => state.filterReducer)
+
+  let [isLoading, setIsLoading] = useState(true)
   let [paginatorPage, setPaginatorPage] = useState(1)
 
   useEffect(() => {
     setIsLoading(true)
     fetch(
-      `https://63be806cf5cfc0949b58f105.mockapi.io/items?${activeCategory > 0 ? `category=${activeCategory}` : ''}${
+      `https://63be806cf5cfc0949b58f105.mockapi.io/items?${categoryValue > 0 ? `category=${categoryValue}` : ''}${
         searchValue !== '' ? `&search=${searchValue}` : ''
       }&sortBy=${sortType.type}&order=${sortOrder ? `asc` : `desc`}&page=${paginatorPage}&limit=4`,
     )
@@ -32,24 +35,17 @@ function Home() {
         setIsLoading(false)
       })
     window.scrollTo(0, 0)
-  }, [activeCategory, sortType, sortOrder, searchValue, paginatorPage])
+  }, [categoryValue, sortType, sortOrder, searchValue, paginatorPage])
   return (
     <div className="container">
       <div className="content__top">
         <Categories
-          categoryValue={activeCategory}
+          categoryValue={categoryValue}
           onChangeCategory={(id) => {
-            setActiveCategory(id)
+            dispatch(changeCategory(id))
           }}
         />
-        <Sort
-          sortValue={sortType}
-          onChangeSort={(sortObj) => {
-            setSortType(sortObj)
-          }}
-          setSortOrder={setSortOrder}
-          sortOrder={sortOrder}
-        />
+        <Sort />
       </div>
       <h2 className="content__title">Все пиццы</h2>
       <div className="content__items">
