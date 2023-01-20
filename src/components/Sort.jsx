@@ -13,8 +13,7 @@ function Sort() {
 
   const dispatch = useDispatch()
 
-  const sortType = useSelector((state) => state.filterReducer.sortType)
-  const sortOrder = useSelector((state) => state.filterReducer.sortOrder)
+  const { sortType, sortOrder } = useSelector((state) => state.filterReducer)
 
   const onClickSortType = (sortType) => {
     dispatch(changeSortType(sortType))
