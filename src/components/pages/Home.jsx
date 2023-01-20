@@ -5,7 +5,7 @@ import Sort from 'components/Sort'
 import PizzaBlock from 'components/PizzaBlock'
 import Skeleton from 'components/PizzaBlock/Skeleton'
 import Paginator from 'components/Paginator'
-import { changeCategory, changeSortType, changeSortOrder } from 'redux/slices/filterSlice'
+import { changeCategory } from 'redux/slices/filterSlice'
 
 function Home() {
   const dispatch = useDispatch()
@@ -50,16 +50,7 @@ function Home() {
             dispatch(changeCategory(id))
           }}
         />
-        <Sort
-          sortValue={sortType}
-          onChangeSort={(sortObj) => {
-            dispatch(changeSortType(sortObj))
-          }}
-          setSortOrder={(sortOrder) => {
-            dispatch(changeSortOrder(sortOrder))
-          }}
-          sortOrder={sortOrder}
-        />
+        <Sort />
       </div>
       <h2 className="content__title">Все пиццы</h2>
       <div className="content__items">

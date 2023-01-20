@@ -1,4 +1,6 @@
 import { useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { changeSortType, changeSortOrder } from 'redux/slices/filterSlice'
 
 const sortList = [
   { name: 'популярности', type: 'rating' },
@@ -6,11 +8,16 @@ const sortList = [
   { name: 'названию', type: 'title' },
 ]
 
-function Sort({ sortValue, onChangeSort, sortOrder, setSortOrder }) {
+function Sort() {
   let [open, setOpen] = useState(false)
 
+  const dispatch = useDispatch()
+
+  const sortType = useSelector((state) => state.filterReducer.sortType)
+  const sortOrder = useSelector((state) => state.filterReducer.sortOrder)
+
   const onClickSortType = (sortType) => {
-    onChangeSort(sortType)
+    dispatch(changeSortType(sortType))
     setOpen(false)
   }
 
@@ -19,7 +26,7 @@ function Sort({ sortValue, onChangeSort, sortOrder, setSortOrder }) {
       <div className="sort__label">
         <div
           onClick={() => {
-            setSortOrder(!sortOrder)
+            dispatch(changeSortOrder(!sortOrder))
           }}
         >
           <svg width="10" height="6" viewBox="0 0 10 6" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -35,7 +42,7 @@ function Sort({ sortValue, onChangeSort, sortOrder, setSortOrder }) {
             setOpen(!open)
           }}
         >
-          {sortValue.name}
+          {sortType.name}
         </span>
       </div>
       {open && (
@@ -45,7 +52,7 @@ function Sort({ sortValue, onChangeSort, sortOrder, setSortOrder }) {
               return (
                 <li
                   key={i}
-                  className={sortValue.sortType === obj.type ? 'active' : ''}
+                  className={sortType.sortType === obj.type ? 'active' : ''}
                   onClick={() => {
                     onClickSortType(obj)
                   }}
