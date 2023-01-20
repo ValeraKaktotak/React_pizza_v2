@@ -18,7 +18,7 @@ function Sort({ sortValue, onChangeSort, sortOrder, setSortOrder }) {
     <div className="sort">
       <div className="sort__label">
         <div
-          onClick={() => {
+          onClick={(sortOrder) => {
             setSortOrder(!sortOrder)
           }}
         >

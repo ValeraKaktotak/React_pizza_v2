@@ -1,17 +1,18 @@
-import { useContext } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 import { BiSearchAlt } from 'react-icons/bi'
 import { AiOutlineClear } from 'react-icons/ai'
-import { SearchContext } from 'App'
+import { changeSearchValue } from 'redux/slices/searchSlice'
 import style from './Search.module.scss'
 
 function Search() {
-  let { searchValue, setSearchValue } = useContext(SearchContext)
+  const dispatch = useDispatch()
+  const searchValue = useSelector((state) => state.searchReducer.searchValue)
 
   return (
     <div className={style.root}>
       <input
         onChange={(e) => {
-          setSearchValue(e.currentTarget.value)
+          dispatch(changeSearchValue(e.currentTarget.value))
         }}
         className={style.input}
         placeholder="Pizza search..."
@@ -23,7 +24,7 @@ function Search() {
       {searchValue && (
         <div
           onClick={() => {
-            setSearchValue('')
+            dispatch(changeSearchValue(''))
           }}
           className={style.clearIcon}
         >

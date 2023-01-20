@@ -1,31 +1,37 @@
-import { useContext, useEffect, useState } from 'react'
-import { SearchContext } from 'App'
+import { useEffect, useState } from 'react'
+import { useSelector, useDispatch } from 'react-redux'
 import Categories from 'components/Categories'
 import Sort from 'components/Sort'
 import PizzaBlock from 'components/PizzaBlock'
 import Skeleton from 'components/PizzaBlock/Skeleton'
 import Paginator from 'components/Paginator'
+import { addFilter } from 'redux/slices/filterSlice'
+import { changeSortType, changeSortOrder } from 'redux/slices/sortSlice'
 
 function Home() {
-  let searchValue = useContext(SearchContext).searchValue
+  const dispatch = useDispatch()
 
+  // search +
+  const searchValue = useSelector((state) => state.searchReducer.searchValue)
+
+  //main pizzas
   let [pizzas, setPizzas] = useState([])
 
+  //filter +
+  const filterCategory = useSelector((state) => state.filterReducer.filterValue)
+
+  //sort +
+  const sortType = useSelector((state) => state.sortReducer.sortType)
+  //sort_asc_desc +
+  const sortOrder = useSelector((state) => state.sortReducer.sortOrder)
+
   let [isLoading, setIsLoading] = useState(true)
-
-  let [activeCategory, setActiveCategory] = useState(0)
-  let [sortType, setSortType] = useState({
-    name: 'популярности',
-    type: 'rating',
-  })
-  let [sortOrder, setSortOrder] = useState(true)
-
   let [paginatorPage, setPaginatorPage] = useState(1)
 
   useEffect(() => {
     setIsLoading(true)
     fetch(
-      `https://63be806cf5cfc0949b58f105.mockapi.io/items?${activeCategory > 0 ? `category=${activeCategory}` : ''}${
+      `https://63be806cf5cfc0949b58f105.mockapi.io/items?${filterCategory > 0 ? `category=${filterCategory}` : ''}${
         searchValue !== '' ? `&search=${searchValue}` : ''
       }&sortBy=${sortType.type}&order=${sortOrder ? `asc` : `desc`}&page=${paginatorPage}&limit=4`,
     )
@@ -35,22 +41,24 @@ function Home() {
         setIsLoading(false)
       })
     window.scrollTo(0, 0)
-  }, [activeCategory, sortType, sortOrder, searchValue, paginatorPage])
+  }, [filterCategory, sortType, sortOrder, searchValue, paginatorPage])
   return (
     <div className="container">
       <div className="content__top">
         <Categories
-          categoryValue={activeCategory}
+          categoryValue={filterCategory}
           onChangeCategory={(id) => {
-            setActiveCategory(id)
+            dispatch(addFilter(id))
           }}
         />
         <Sort
           sortValue={sortType}
           onChangeSort={(sortObj) => {
-            setSortType(sortObj)
+            dispatch(changeSortType(sortObj))
           }}
-          setSortOrder={setSortOrder}
+          setSortOrder={(sortOrder) => {
+            dispatch(changeSortOrder(sortOrder))
+          }}
           sortOrder={sortOrder}
         />
       </div>
