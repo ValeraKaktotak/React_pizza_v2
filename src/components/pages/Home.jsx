@@ -10,19 +10,14 @@ import { changeCategory } from 'redux/slices/filterSlice'
 function Home() {
   const dispatch = useDispatch()
 
-  // search +
+  // search reducer
   const searchValue = useSelector((state) => state.searchReducer.searchValue)
 
   //main pizzas
   let [pizzas, setPizzas] = useState([])
 
-  //filter +
-  const filterCategory = useSelector((state) => state.filterReducer.categoryValue)
-
-  //sort +
-  const sortType = useSelector((state) => state.filterReducer.sortType)
-  //sort_asc_desc +
-  const sortOrder = useSelector((state) => state.filterReducer.sortOrder)
+  //filter reducer
+  const { categoryValue, sortType, sortOrder } = useSelector((state) => state.filterReducer)
 
   let [isLoading, setIsLoading] = useState(true)
   let [paginatorPage, setPaginatorPage] = useState(1)
@@ -30,7 +25,7 @@ function Home() {
   useEffect(() => {
     setIsLoading(true)
     fetch(
-      `https://63be806cf5cfc0949b58f105.mockapi.io/items?${filterCategory > 0 ? `category=${filterCategory}` : ''}${
+      `https://63be806cf5cfc0949b58f105.mockapi.io/items?${categoryValue > 0 ? `category=${categoryValue}` : ''}${
         searchValue !== '' ? `&search=${searchValue}` : ''
       }&sortBy=${sortType.type}&order=${sortOrder ? `asc` : `desc`}&page=${paginatorPage}&limit=4`,
     )
@@ -40,12 +35,12 @@ function Home() {
         setIsLoading(false)
       })
     window.scrollTo(0, 0)
-  }, [filterCategory, sortType, sortOrder, searchValue, paginatorPage])
+  }, [categoryValue, sortType, sortOrder, searchValue, paginatorPage])
   return (
     <div className="container">
       <div className="content__top">
         <Categories
-          categoryValue={filterCategory}
+          categoryValue={categoryValue}
           onChangeCategory={(id) => {
             dispatch(changeCategory(id))
           }}
