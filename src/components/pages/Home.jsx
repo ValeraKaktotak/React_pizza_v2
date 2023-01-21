@@ -18,10 +18,9 @@ function Home() {
   let [pizzas, setPizzas] = useState([])
 
   //filter reducer
-  const { categoryValue, sortType, sortOrder } = useSelector((state) => state.filterReducer)
+  const { categoryValue, sortType, sortOrder, paginatorPage } = useSelector((state) => state.filterReducer)
 
   let [isLoading, setIsLoading] = useState(true)
-  let [paginatorPage, setPaginatorPage] = useState(1)
 
   useEffect(() => {
     setIsLoading(true)
@@ -64,11 +63,7 @@ function Home() {
           ? [...new Array(6)].map((_, index) => <Skeleton key={index} />)
           : pizzas.map((item, index) => <PizzaBlock key={index} {...item} />)}
       </div>
-      <Paginator
-        handlePageClick={(number) => {
-          setPaginatorPage(number)
-        }}
-      />
+      <Paginator />
     </div>
   )
 }

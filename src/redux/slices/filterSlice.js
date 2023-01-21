@@ -7,6 +7,7 @@ const initialState = {
     type: 'rating',
   },
   sortOrder: true,
+  paginatorPage: 1,
 }
 
 export const filterSlice = createSlice({
@@ -22,9 +23,12 @@ export const filterSlice = createSlice({
     changeSortOrder(state, action) {
       state.sortOrder = action.payload
     },
+    setPaginatorPage(state, action) {
+      state.paginatorPage = action.payload
+    },
   },
 })
 
-export const { changeCategory, changeSortType, changeSortOrder } = filterSlice.actions
+export const { changeCategory, changeSortType, changeSortOrder, setPaginatorPage } = filterSlice.actions
 
 export default filterSlice.reducer

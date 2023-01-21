@@ -1,36 +1,46 @@
-import { useRef } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
+import { useCallback, useRef, useState } from 'react'
+import { useDispatch } from 'react-redux'
 import { BiSearchAlt } from 'react-icons/bi'
 import { AiOutlineClear } from 'react-icons/ai'
+import debounce from 'lodash.debounce'
 import { changeSearchValue } from 'redux/slices/searchSlice'
 import style from './Search.module.scss'
 
 function Search() {
   const dispatch = useDispatch()
-  const searchValue = useSelector((state) => state.searchReducer.searchValue)
-
+  const [inputValue, setInputValue] = useState('')
   const inputRef = useRef()
 
   const clearInput = () => {
+    setInputValue('')
     dispatch(changeSearchValue(''))
     inputRef.current.focus()
+  }
+
+  const debounceSearch = useCallback(
+    debounce((value) => {
+      dispatch(changeSearchValue(value))
+    }, 300),
+    [],
+  )
+  const changeSearch = (event) => {
+    setInputValue(event.target.value)
+    debounceSearch(event.target.value)
   }
 
   return (
     <div className={style.root}>
       <input
         ref={inputRef}
-        onChange={(e) => {
-          dispatch(changeSearchValue(e.currentTarget.value))
-        }}
+        onChange={changeSearch}
         className={style.input}
         placeholder="Pizza search..."
-        value={searchValue}
+        value={inputValue}
       />
       <div className={style.icon}>
         <BiSearchAlt />
       </div>
-      {searchValue && (
+      {inputValue && (
         <div onClick={clearInput} className={style.clearIcon}>
           <AiOutlineClear />
         </div>
