@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
+import axios from 'axios'
 import Categories from 'components/Categories'
 import Sort from 'components/Sort'
 import PizzaBlock from 'components/PizzaBlock'
@@ -24,14 +25,24 @@ function Home() {
 
   useEffect(() => {
     setIsLoading(true)
-    fetch(
-      `https://63be806cf5cfc0949b58f105.mockapi.io/items?${categoryValue > 0 ? `category=${categoryValue}` : ''}${
-        searchValue !== '' ? `&search=${searchValue}` : ''
-      }&sortBy=${sortType.type}&order=${sortOrder ? `asc` : `desc`}&page=${paginatorPage}&limit=4`,
-    )
-      .then((resp) => resp.json())
-      .then((resp) => {
-        setPizzas(resp)
+    // fetch(
+    //   `https://63be806cf5cfc0949b58f105.mockapi.io/items?${categoryValue > 0 ? `category=${categoryValue}` : ''}${
+    //     searchValue !== '' ? `&search=${searchValue}` : ''
+    //   }&sortBy=${sortType.type}&order=${sortOrder ? `asc` : `desc`}&page=${paginatorPage}&limit=4`,
+    // )
+    //   .then((resp) => resp.json())
+    //   .then((resp) => {
+    //     setPizzas(resp)
+    //     setIsLoading(false)
+    //   })
+    axios
+      .get(
+        `https://63be806cf5cfc0949b58f105.mockapi.io/items?${categoryValue > 0 ? `category=${categoryValue}` : ''}${
+          searchValue !== '' ? `&search=${searchValue}` : ''
+        }&sortBy=${sortType.type}&order=${sortOrder ? `asc` : `desc`}&page=${paginatorPage}&limit=4`,
+      )
+      .then((res) => {
+        setPizzas(res.data)
         setIsLoading(false)
       })
     window.scrollTo(0, 0)
