@@ -1,3 +1,4 @@
+import { useRef } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { BiSearchAlt } from 'react-icons/bi'
 import { AiOutlineClear } from 'react-icons/ai'
@@ -8,9 +9,17 @@ function Search() {
   const dispatch = useDispatch()
   const searchValue = useSelector((state) => state.searchReducer.searchValue)
 
+  const inputRef = useRef()
+
+  const clearInput = () => {
+    dispatch(changeSearchValue(''))
+    inputRef.current.focus()
+  }
+
   return (
     <div className={style.root}>
       <input
+        ref={inputRef}
         onChange={(e) => {
           dispatch(changeSearchValue(e.currentTarget.value))
         }}
@@ -22,12 +31,7 @@ function Search() {
         <BiSearchAlt />
       </div>
       {searchValue && (
-        <div
-          onClick={() => {
-            dispatch(changeSearchValue(''))
-          }}
-          className={style.clearIcon}
-        >
+        <div onClick={clearInput} className={style.clearIcon}>
           <AiOutlineClear />
         </div>
       )}
