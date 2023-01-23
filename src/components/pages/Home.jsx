@@ -12,7 +12,7 @@ import { changeCategory, urlQueryState } from 'redux/slices/filterSlice'
 import { sortList } from 'components/Sort'
 
 function Home() {
-  console.log('RERENDER')
+  console.log('render')
   const dispatch = useDispatch()
   const navigate = useNavigate()
 
@@ -27,8 +27,10 @@ function Home() {
 
   let [isLoading, setIsLoading] = useState(false)
   let isUrlQuery = useRef(false)
+  let isMounted = useRef(false)
 
-  function fetchPizzas() {
+  //Фун-я которая при вызове делает аксиос запрос
+  function axiosPizzas() {
     setIsLoading(true)
     axios
       .get(
@@ -42,9 +44,8 @@ function Home() {
       })
   }
 
+  // При первом рендере проверяет адресную строку на наличие параметров, если они есть диспатчит их в редакс
   useEffect(() => {
-    console.log('useEffect urlQueryState')
-
     if (window.location.search) {
       const params = qs.parse(window.location.search.substring(1))
       const sortType = sortList.find((obj) => obj.type === params.sortType)
@@ -53,27 +54,28 @@ function Home() {
     }
   }, [])
 
+  //Отправляет аксиос запрос к АПИ
   useEffect(() => {
-    console.log('useEffect axios')
-
     if (!isUrlQuery.current) {
-      fetchPizzas()
+      axiosPizzas()
     }
     isUrlQuery.current = false
     window.scrollTo(0, 0)
   }, [categoryValue, sortType, sortOrder, searchValue, paginatorPage])
 
+  //После первого рендера вшивает в адресную строку параметры полученные с редакса
   useEffect(() => {
-    console.log('useEffect queryString')
-
-    const queryString = qs.stringify({
-      categoryValue,
-      sortType: sortType.type,
-      sortOrder,
-      paginatorPage,
-      searchValue,
-    })
-    navigate(`?${queryString}`)
+    if (isMounted.current) {
+      const queryString = qs.stringify({
+        categoryValue,
+        sortType: sortType.type,
+        sortOrder,
+        paginatorPage,
+        searchValue,
+      })
+      navigate(`?${queryString}`)
+    }
+    isMounted.current = true
   }, [categoryValue, sortType, sortOrder, searchValue, paginatorPage])
 
   return (
