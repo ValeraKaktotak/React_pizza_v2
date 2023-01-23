@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
 import axios from 'axios'
 import qs from 'qs'
@@ -11,6 +12,7 @@ import { changeCategory } from 'redux/slices/filterSlice'
 
 function Home() {
   const dispatch = useDispatch()
+  const navigate = useNavigate()
 
   // search reducer
   const searchValue = useSelector((state) => state.searchReducer.searchValue)
@@ -56,7 +58,7 @@ function Home() {
       paginatorPage,
       searchValue,
     })
-    console.log(queryString)
+    navigate(`?${queryString}`)
   }, [categoryValue, sortType, sortOrder, searchValue, paginatorPage])
 
   return (
