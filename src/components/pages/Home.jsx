@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import axios from 'axios'
+import qs from 'qs'
 import Categories from 'components/Categories'
 import Sort from 'components/Sort'
 import PizzaBlock from 'components/PizzaBlock'
@@ -46,6 +47,18 @@ function Home() {
       })
     window.scrollTo(0, 0)
   }, [categoryValue, sortType, sortOrder, searchValue, paginatorPage])
+
+  useEffect(() => {
+    const queryString = qs.stringify({
+      categoryValue,
+      sortType: sortType.type,
+      sortOrder,
+      paginatorPage,
+      searchValue,
+    })
+    console.log(queryString)
+  }, [categoryValue, sortType, sortOrder, searchValue, paginatorPage])
+
   return (
     <div className="container">
       <div className="content__top">
