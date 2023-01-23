@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useRef } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
 import axios from 'axios'
@@ -26,18 +26,9 @@ function Home() {
   const { categoryValue, sortType, sortOrder, paginatorPage } = useSelector((state) => state.filterReducer)
 
   let [isLoading, setIsLoading] = useState(false)
+  let isUrlQuery = useRef(false)
 
-  useEffect(() => {
-    console.log('useEffect urlQueryState')
-    if (window.location.search) {
-      const params = qs.parse(window.location.search.substring(1))
-      const sortType = sortList.find((obj) => obj.type === params.sortType)
-      dispatch(urlQueryState({ ...params, sortType }))
-    }
-  }, [])
-
-  useEffect(() => {
-    console.log('useEffect axios')
+  function fetchPizzas() {
     setIsLoading(true)
     axios
       .get(
@@ -49,11 +40,32 @@ function Home() {
         setPizzas(res.data)
         setIsLoading(false)
       })
+  }
+
+  useEffect(() => {
+    console.log('useEffect urlQueryState')
+
+    if (window.location.search) {
+      const params = qs.parse(window.location.search.substring(1))
+      const sortType = sortList.find((obj) => obj.type === params.sortType)
+      dispatch(urlQueryState({ ...params, sortType }))
+      isUrlQuery.current = true
+    }
+  }, [])
+
+  useEffect(() => {
+    console.log('useEffect axios')
+
+    if (!isUrlQuery.current) {
+      fetchPizzas()
+    }
+    isUrlQuery.current = false
     window.scrollTo(0, 0)
   }, [categoryValue, sortType, sortOrder, searchValue, paginatorPage])
 
   useEffect(() => {
     console.log('useEffect queryString')
+
     const queryString = qs.stringify({
       categoryValue,
       sortType: sortType.type,

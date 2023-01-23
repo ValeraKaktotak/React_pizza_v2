@@ -29,7 +29,7 @@ export const filterSlice = createSlice({
     urlQueryState(state, action) {
       state.categoryValue = Number(action.payload.categoryValue)
       state.paginatorPage = Number(action.payload.paginatorPage)
-      state.sortOrder = action.payload.sortOrder
+      state.sortOrder = JSON.parse(action.payload.sortOrder)
       state.sortType = action.payload.sortType
     },
   },
