@@ -12,7 +12,6 @@ import { changeCategory, urlQueryState } from 'redux/slices/filterSlice'
 import { sortList } from 'components/Sort'
 
 function Home() {
-  console.log('render')
   const dispatch = useDispatch()
   const navigate = useNavigate()
 
