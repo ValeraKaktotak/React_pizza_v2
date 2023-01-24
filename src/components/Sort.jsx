@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { changeSortType, changeSortOrder } from 'redux/slices/filterSlice'
 
@@ -9,10 +9,9 @@ export const sortList = [
 ]
 
 function Sort() {
-  let [open, setOpen] = useState(false)
-
   const dispatch = useDispatch()
-
+  const sortRef = useRef()
+  const [open, setOpen] = useState(false)
   const { sortType, sortOrder } = useSelector((state) => state.filterReducer)
 
   const onClickSortType = (sortType) => {
@@ -20,8 +19,22 @@ function Sort() {
     setOpen(false)
   }
 
+  //хук закрытия окна с сортировкой по клику вне окна
+  useEffect(() => {
+    let handler = (e) => {
+      if (!sortRef.current.contains(e.target)) {
+        setOpen(false)
+      }
+    }
+    document.body.addEventListener('click', handler)
+
+    return () => {
+      document.body.removeEventListener('click', handler)
+    }
+  }, [])
+
   return (
-    <div className="sort">
+    <div ref={sortRef} className="sort">
       <div className="sort__label">
         <div
           onClick={() => {
