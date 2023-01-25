@@ -31,7 +31,7 @@ const Cart = () => {
             strokeLinejoin="round"
           />
         </svg>
-        <span>{items}</span>
+        <span>{items.length}</span>
       </Link>
     </div>
   )
