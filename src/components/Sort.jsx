@@ -22,7 +22,6 @@ function Sort() {
   //хук закрытия окна с сортировкой по клику вне окна
   useEffect(() => {
     let handler = (e) => {
-      console.log('click handler')
       if (!sortRef.current.contains(e.target)) {
         setOpen(false)
       }
