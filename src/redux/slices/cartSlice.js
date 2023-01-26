@@ -10,9 +10,17 @@ export const cartSlice = createSlice({
   initialState,
   reducers: {
     addItem(state, action) {
-      state.items.push(action.payload)
+      const findItem = state.items.find((obj) => obj.id === action.payload.id)
+      if (findItem) {
+        findItem.count++
+      } else {
+        state.items.push({
+          ...action.payload,
+          count: 1,
+        })
+      }
       state.totalCoast = state.items.reduce((sum, obj) => {
-        return sum + obj.price
+        return obj.count * obj.price + sum
       }, 0)
     },
     removeItem(state, action) {

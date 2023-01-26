@@ -5,6 +5,9 @@ import { addItem } from 'redux/slices/cartSlice'
 const PizzaBlock = ({ id, imageUrl, title, price, sizes, types }) => {
   const dispatch = useDispatch()
 
+  const cartItem = useSelector((state) => state.cartReducer.items.find((obj) => obj.id === id))
+  const count = cartItem ? cartItem.count : 0
+
   const typesNames = ['тонкая', 'традиционная']
   let [activeType, setActiveType] = useState(0)
   let [pizzaSize, setPizzaSize] = useState(0)
@@ -15,7 +18,7 @@ const PizzaBlock = ({ id, imageUrl, title, price, sizes, types }) => {
       imageUrl,
       title,
       price,
-      type: activeType,
+      type: typesNames[activeType],
       size: pizzaSize,
     }
     dispatch(addItem(item))
@@ -67,7 +70,7 @@ const PizzaBlock = ({ id, imageUrl, title, price, sizes, types }) => {
             />
           </svg>
           <span>Добавить</span>
-          <i>0</i>
+          {count > 0 && <i>{count}</i>}
         </button>
       </div>
     </div>
