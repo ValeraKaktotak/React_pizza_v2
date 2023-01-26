@@ -3,6 +3,7 @@ import { useSelector } from 'react-redux'
 
 const Cart = () => {
   const { totalCoast, items } = useSelector((state) => state.cartReducer)
+
   return (
     <div className="header__cart">
       <Link to="/cart" className="button button--cart">
