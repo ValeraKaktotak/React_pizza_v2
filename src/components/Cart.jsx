@@ -4,6 +4,10 @@ import { useSelector } from 'react-redux'
 const Cart = () => {
   const { totalCoast, items } = useSelector((state) => state.cartReducer)
 
+  const count = items.reduce((count, obj) => {
+    return obj.count + count
+  }, 0)
+
   return (
     <div className="header__cart">
       <Link to="/cart" className="button button--cart">
@@ -32,7 +36,7 @@ const Cart = () => {
             strokeLinejoin="round"
           />
         </svg>
-        <span>{items.length}</span>
+        <span>{count}</span>
       </Link>
     </div>
   )

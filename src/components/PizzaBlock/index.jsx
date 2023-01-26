@@ -9,7 +9,7 @@ const PizzaBlock = ({ id, imageUrl, title, price, sizes, types }) => {
   const count = cartItem ? cartItem.count : 0
 
   const typesNames = ['тонкая', 'традиционная']
-  let [activeType, setActiveType] = useState(0)
+  let [activeType, setActiveType] = useState(types[0])
   let [pizzaSize, setPizzaSize] = useState(0)
 
   const onClickAdd = () => {
