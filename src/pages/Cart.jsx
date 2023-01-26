@@ -19,7 +19,6 @@ function Cart() {
   if (!items.length) {
     return <CartEmpty />
   }
-
   return (
     <div className="container container--cart">
       <div className="cart">
@@ -86,8 +85,8 @@ function Cart() {
           </div>
         </div>
         <div className="cart__items">
-          {items.map((item) => (
-            <CartItem key={item.id} {...item} />
+          {items.map((item, index) => (
+            <CartItem key={index} {...item} />
           ))}
         </div>
         <div className="cart__bottom">

@@ -1,12 +1,9 @@
 import { useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
+import { useDispatch } from 'react-redux'
 import { addItem } from 'redux/slices/cartSlice'
 
 const PizzaBlock = ({ id, imageUrl, title, price, sizes, types }) => {
   const dispatch = useDispatch()
-
-  const cartItem = useSelector((state) => state.cartReducer.items.find((obj) => obj.id === id))
-  const count = cartItem ? cartItem.count : 0
 
   const typesNames = ['тонкая', 'традиционная']
   let [activeType, setActiveType] = useState(types[0])
@@ -19,7 +16,7 @@ const PizzaBlock = ({ id, imageUrl, title, price, sizes, types }) => {
       title,
       price,
       type: typesNames[activeType],
-      size: pizzaSize,
+      size: sizes[pizzaSize],
     }
     dispatch(addItem(item))
   }
@@ -70,7 +67,6 @@ const PizzaBlock = ({ id, imageUrl, title, price, sizes, types }) => {
             />
           </svg>
           <span>Добавить</span>
-          {count > 0 && <i>{count}</i>}
         </button>
       </div>
     </div>

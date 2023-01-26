@@ -15,7 +15,9 @@ export const cartSlice = createSlice({
   initialState,
   reducers: {
     addItem(state, action) {
-      const findItem = state.items.find((obj) => obj.id === action.payload.id)
+      const findItem = state.items.find(
+        (obj) => obj.id === action.payload.id && obj.size === action.payload.size && obj.type === action.payload.type,
+      )
       if (findItem) {
         findItem.count++
       } else {
@@ -24,10 +26,22 @@ export const cartSlice = createSlice({
           count: 1,
         })
       }
+
       resetTotalCoast(state)
     },
+    plusItem(state, action) {
+      const findItem = state.items.find(
+        (obj) => obj.id === action.payload.id && obj.size === action.payload.size && obj.type === action.payload.type,
+      )
+      if (findItem) {
+        findItem.count++
+        resetTotalCoast(state)
+      }
+    },
     minusItem(state, action) {
-      const findItem = state.items.find((obj) => obj.id === action.payload)
+      const findItem = state.items.find(
+        (obj) => obj.id === action.payload.id && obj.size === action.payload.size && obj.type === action.payload.type,
+      )
       if (findItem) {
         findItem.count--
         resetTotalCoast(state)
@@ -35,7 +49,10 @@ export const cartSlice = createSlice({
     },
     removeItem(state, action) {
       if (window.confirm('Are you sure?')) {
-        state.items = state.items.filter((obj) => obj.id !== action.payload)
+        state.items = state.items.filter(
+          (obj) =>
+            !(obj.id === action.payload.id && obj.size === action.payload.size && obj.type === action.payload.type),
+        )
         resetTotalCoast(state)
       }
     },
@@ -48,6 +65,6 @@ export const cartSlice = createSlice({
   },
 })
 
-export const { addItem, removeItem, clearItems, minusItem } = cartSlice.actions
+export const { addItem, removeItem, clearItems, minusItem, plusItem } = cartSlice.actions
 
 export default cartSlice.reducer
