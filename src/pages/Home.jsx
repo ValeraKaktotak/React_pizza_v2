@@ -1,15 +1,15 @@
 import { useEffect, useState, useRef } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
-import axios from 'axios'
 import qs from 'qs'
 import Categories from 'components/Categories'
 import Sort from 'components/Sort'
 import PizzaBlock from 'components/PizzaBlock'
 import Skeleton from 'components/PizzaBlock/Skeleton'
 import Paginator from 'components/Paginator'
-import { changeCategory, urlQueryState } from 'redux/slices/filterSlice'
 import { sortList } from 'components/Sort'
+import { changeCategory, urlQueryState } from 'redux/slices/filterSlice'
+import { fetchPizzas } from 'redux/slices/pizzasSlice'
 
 function Home() {
   const dispatch = useDispatch()
@@ -18,30 +18,22 @@ function Home() {
   // search reducer
   const searchValue = useSelector((state) => state.searchReducer.searchValue)
 
-  //main pizzas
-  let [pizzas, setPizzas] = useState([])
+  //pizzas reducer
+  const pizzas = useSelector((state) => state.pizzasReducer.items)
+  const status = useSelector((state) => state.pizzasReducer.status)
 
   //filter reducer
   const { categoryValue, sortType, sortOrder, paginatorPage } = useSelector((state) => state.filterReducer)
 
-  let [isLoading, setIsLoading] = useState(false)
   let isUrlQuery = useRef(false)
   let isMounted = useRef(false)
 
   //Фун-я которая при вызове делает аксиос запрос
   async function axiosPizzas() {
     try {
-      setIsLoading(true)
-      const res = await axios.get(
-        `https://63be806cf5cfc0949b58f105.mockapi.io/items?${categoryValue > 0 ? `category=${categoryValue}` : ''}${
-          searchValue !== '' ? `&search=${searchValue}` : ''
-        }&sortBy=${sortType.type}&order=${sortOrder ? `asc` : `desc`}&page=${paginatorPage}&limit=4`,
-      )
-      setPizzas(res.data)
+      dispatch(fetchPizzas({ categoryValue, searchValue, sortType, sortOrder, paginatorPage }))
     } catch (error) {
       console.log(error.code)
-    } finally {
-      setIsLoading(false)
     }
   }
 
@@ -92,7 +84,7 @@ function Home() {
       </div>
       <h2 className="content__title">Все пиццы</h2>
       <div className="content__items">
-        {isLoading
+        {status === 'loading'
           ? [...new Array(6)].map((_, index) => <Skeleton key={index} />)
           : pizzas.map((item, index) => <PizzaBlock key={index} {...item} />)}
       </div>
