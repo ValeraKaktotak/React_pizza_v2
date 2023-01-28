@@ -29,12 +29,8 @@ function Home() {
   let isMounted = useRef(false)
 
   //Фун-я которая при вызове делает аксиос запрос
-  async function axiosPizzas() {
-    try {
-      dispatch(fetchPizzas({ categoryValue, searchValue, sortType, sortOrder, paginatorPage }))
-    } catch (error) {
-      console.log(error.code)
-    }
+  function axiosPizzas() {
+    dispatch(fetchPizzas({ categoryValue, searchValue, sortType, sortOrder, paginatorPage }))
   }
 
   // При первом рендере проверяет адресную строку на наличие параметров, если они есть диспатчит их в редакс
@@ -83,11 +79,22 @@ function Home() {
         <Sort />
       </div>
       <h2 className="content__title">Все пиццы</h2>
-      <div className="content__items">
-        {status === 'loading'
-          ? [...new Array(6)].map((_, index) => <Skeleton key={index} />)
-          : pizzas.map((item, index) => <PizzaBlock key={index} {...item} />)}
-      </div>
+      {status === 'error' ? (
+        <div className="content__error-info">
+          <h1>
+            😕
+            <br />
+            <span>Ничего не найдено</span>
+          </h1>
+          <p>К сожалению ваш запрос не может выполниться</p>
+        </div>
+      ) : (
+        <div className="content__items">
+          {status === 'loading'
+            ? [...new Array(6)].map((_, index) => <Skeleton key={index} />)
+            : pizzas.map((item, index) => <PizzaBlock key={index} {...item} />)}
+        </div>
+      )}
       <Paginator />
     </div>
   )
