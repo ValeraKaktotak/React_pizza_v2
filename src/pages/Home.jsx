@@ -29,18 +29,20 @@ function Home() {
   let isMounted = useRef(false)
 
   //Фун-я которая при вызове делает аксиос запрос
-  function axiosPizzas() {
-    setIsLoading(true)
-    axios
-      .get(
+  async function axiosPizzas() {
+    try {
+      setIsLoading(true)
+      const res = await axios.get(
         `https://63be806cf5cfc0949b58f105.mockapi.io/items?${categoryValue > 0 ? `category=${categoryValue}` : ''}${
           searchValue !== '' ? `&search=${searchValue}` : ''
         }&sortBy=${sortType.type}&order=${sortOrder ? `asc` : `desc`}&page=${paginatorPage}&limit=4`,
       )
-      .then((res) => {
-        setPizzas(res.data)
-        setIsLoading(false)
-      })
+      setPizzas(res.data)
+    } catch (error) {
+      console.log(error.code)
+    } finally {
+      setIsLoading(false)
+    }
   }
 
   // При первом рендере проверяет адресную строку на наличие параметров, если они есть диспатчит их в редакс
