@@ -35,6 +35,9 @@ export const filterSlice = createSlice({
   },
 })
 
+export const selectFilter = (state) => state.filterReducer
+export const selectFilterPaginatorPage = (state) => state.filterReducer.paginatorPage
+
 export const { changeCategory, changeSortType, changeSortOrder, setPaginatorPage, urlQueryState } = filterSlice.actions
 
 export default filterSlice.reducer

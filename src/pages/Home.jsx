@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef } from 'react'
+import { useEffect, useRef } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
 import qs from 'qs'
@@ -8,22 +8,22 @@ import PizzaBlock from 'components/PizzaBlock'
 import Skeleton from 'components/PizzaBlock/Skeleton'
 import Paginator from 'components/Paginator'
 import { sortList } from 'components/Sort'
-import { changeCategory, urlQueryState } from 'redux/slices/filterSlice'
-import { fetchPizzas } from 'redux/slices/pizzasSlice'
+import { changeCategory, urlQueryState, selectFilter } from 'redux/slices/filterSlice'
+import { fetchPizzas, selectPizzas } from 'redux/slices/pizzasSlice'
+import { selectSearch } from 'redux/slices/searchSlice'
 
 function Home() {
   const dispatch = useDispatch()
   const navigate = useNavigate()
 
   // search reducer
-  const searchValue = useSelector((state) => state.searchReducer.searchValue)
+  const searchValue = useSelector(selectSearch)
 
   //pizzas reducer
-  const pizzas = useSelector((state) => state.pizzasReducer.items)
-  const status = useSelector((state) => state.pizzasReducer.status)
+  const { items, status } = useSelector(selectPizzas)
 
   //filter reducer
-  const { categoryValue, sortType, sortOrder, paginatorPage } = useSelector((state) => state.filterReducer)
+  const { categoryValue, sortType, sortOrder, paginatorPage } = useSelector(selectFilter)
 
   let isUrlQuery = useRef(false)
   let isMounted = useRef(false)
@@ -92,7 +92,7 @@ function Home() {
         <div className="content__items">
           {status === 'loading'
             ? [...new Array(6)].map((_, index) => <Skeleton key={index} />)
-            : pizzas.map((item, index) => <PizzaBlock key={index} {...item} />)}
+            : items.map((item, index) => <PizzaBlock key={index} {...item} />)}
         </div>
       )}
       <Paginator />
