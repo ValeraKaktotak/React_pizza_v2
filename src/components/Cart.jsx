@@ -1,8 +1,9 @@
 import { Link } from 'react-router-dom'
 import { useSelector } from 'react-redux'
+import { selectCart } from 'redux/slices/cartSlice'
 
 const Cart = () => {
-  const { totalCoast, items } = useSelector((state) => state.cartReducer)
+  const { totalCoast, items } = useSelector(selectCart)
 
   const count = items.reduce((count, obj) => {
     return obj.count + count

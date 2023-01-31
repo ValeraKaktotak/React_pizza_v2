@@ -8,6 +8,7 @@ const initialState = {
   },
   sortOrder: true,
   paginatorPage: 1,
+  searchValue: '',
 }
 
 export const filterSlice = createSlice({
@@ -32,9 +33,16 @@ export const filterSlice = createSlice({
       state.sortOrder = JSON.parse(action.payload.sortOrder)
       state.sortType = action.payload.sortType
     },
+    changeSearchValue: (state, action) => {
+      state.searchValue = action.payload
+    },
   },
 })
 
-export const { changeCategory, changeSortType, changeSortOrder, setPaginatorPage, urlQueryState } = filterSlice.actions
+export const selectFilter = (state) => state.filterReducer
+export const selectFilterPaginatorPage = (state) => state.filterReducer.paginatorPage
+
+export const { changeCategory, changeSortType, changeSortOrder, setPaginatorPage, urlQueryState, changeSearchValue } =
+  filterSlice.actions
 
 export default filterSlice.reducer
