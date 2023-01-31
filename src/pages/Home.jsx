@@ -8,22 +8,18 @@ import PizzaBlock from 'components/PizzaBlock'
 import Skeleton from 'components/PizzaBlock/Skeleton'
 import Paginator from 'components/Paginator'
 import { sortList } from 'components/Sort'
-import { changeCategory, urlQueryState, selectFilter } from 'redux/slices/filterSlice'
+import { changeCategory, urlQueryState, selectFilter, selectSearch } from 'redux/slices/filterSlice'
 import { fetchPizzas, selectPizzas } from 'redux/slices/pizzasSlice'
-import { selectSearch } from 'redux/slices/searchSlice'
 
 function Home() {
   const dispatch = useDispatch()
   const navigate = useNavigate()
 
-  // search reducer
-  const searchValue = useSelector(selectSearch)
-
   //pizzas reducer
   const { items, status } = useSelector(selectPizzas)
 
   //filter reducer
-  const { categoryValue, sortType, sortOrder, paginatorPage } = useSelector(selectFilter)
+  const { categoryValue, sortType, sortOrder, paginatorPage, searchValue } = useSelector(selectFilter)
 
   let isUrlQuery = useRef(false)
   let isMounted = useRef(false)
