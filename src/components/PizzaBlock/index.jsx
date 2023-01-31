@@ -9,7 +9,7 @@ const PizzaBlock = ({ id, imageUrl, title, price, sizes, types }) => {
   let [activeType, setActiveType] = useState(types[0])
   let [pizzaSize, setPizzaSize] = useState(0)
 
-  const pizzasCount = useSelector(selectPizzasById(id))
+  const pizzasCount = useSelector(selectPizzasById(id)).reduce((count, obj) => (count += obj.count), 0)
 
   const onClickAdd = () => {
     const item = {
@@ -69,7 +69,7 @@ const PizzaBlock = ({ id, imageUrl, title, price, sizes, types }) => {
             />
           </svg>
           <span>Добавить</span>
-          <i>{pizzasCount ? pizzasCount.length : 0}</i>
+          {pizzasCount > 0 && <i>{pizzasCount}</i>}
         </button>
       </div>
     </div>
