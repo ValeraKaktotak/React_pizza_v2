@@ -1,5 +1,5 @@
 import { useEffect, useRef } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { redirect, useNavigate } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
 import qs from 'qs'
 import Categories from 'components/Categories'
@@ -48,7 +48,7 @@ function Home() {
     window.scrollTo(0, 0)
   }, [categoryValue, sortType, sortOrder, searchValue, paginatorPage])
 
-  //После первого рендера вшивает в адресную строку параметры полученные с редакса
+  //После второго рендера вшивает в адресную строку параметры полученные с редакса
   useEffect(() => {
     if (isMounted.current) {
       const queryString = qs.stringify({
@@ -58,7 +58,7 @@ function Home() {
         paginatorPage,
         searchValue,
       })
-      navigate(`?${queryString}`)
+      navigate(`/?${queryString}`)
     }
     isMounted.current = true
   }, [categoryValue, sortType, sortOrder, searchValue, paginatorPage, navigate])

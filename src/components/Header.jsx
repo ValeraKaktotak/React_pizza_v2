@@ -5,7 +5,6 @@ import logo from 'assets/img/pizza-logo.svg'
 
 function Header() {
   const location = useLocation()
-  console.log(location)
   return (
     <div className="header">
       <div className="container">
