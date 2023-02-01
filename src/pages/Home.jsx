@@ -8,7 +8,7 @@ import PizzaBlock from 'components/PizzaBlock'
 import Skeleton from 'components/PizzaBlock/Skeleton'
 import Paginator from 'components/Paginator'
 import { sortList } from 'components/Sort'
-import { changeCategory, urlQueryState, selectFilter, selectSearch } from 'redux/slices/filterSlice'
+import { changeCategory, urlQueryState, selectFilter } from 'redux/slices/filterSlice'
 import { fetchPizzas, selectPizzas } from 'redux/slices/pizzasSlice'
 
 function Home() {
@@ -61,7 +61,7 @@ function Home() {
       navigate(`?${queryString}`)
     }
     isMounted.current = true
-  }, [categoryValue, sortType, sortOrder, searchValue, paginatorPage])
+  }, [categoryValue, sortType, sortOrder, searchValue, paginatorPage, navigate])
 
   return (
     <div className="container">

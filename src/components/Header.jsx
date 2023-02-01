@@ -1,9 +1,11 @@
-import { Link } from 'react-router-dom'
+import { Link, useLocation } from 'react-router-dom'
 import Search from 'components/Search'
 import Cart from 'components/Cart'
 import logo from 'assets/img/pizza-logo.svg'
 
 function Header() {
+  const location = useLocation()
+  console.log(location)
   return (
     <div className="header">
       <div className="container">
@@ -15,7 +17,7 @@ function Header() {
           </div>
         </Link>
         <Search />
-        <Cart />
+        {location.pathname !== '/cart' && <Cart />}
       </div>
     </div>
   )
