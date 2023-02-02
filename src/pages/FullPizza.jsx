@@ -1,18 +1,32 @@
 import axios from 'axios'
 import { useEffect, useState } from 'react'
-import { Link, useParams } from 'react-router-dom'
+import { Link, useNavigate, useParams } from 'react-router-dom'
 
 const FullPizza = () => {
   const { id } = useParams()
-  const [pizza, setPizza] = useState({})
+  const navigate = useNavigate()
+  const [pizza, setPizza] = useState()
 
   useEffect(() => {
     async function getPizza() {
-      const { data } = await axios.get(`https://63be806cf5cfc0949b58f105.mockapi.io/items/${id}`)
-      setPizza(data)
+      try {
+        const { data } = await axios.get(`https://63be806cf5cfc0949b58f105.mockapi.io/items/${id}`)
+        setPizza(data)
+      } catch (error) {
+        alert('Sorry something wrong happens')
+        navigate('/')
+      }
     }
     getPizza()
   }, [])
+
+  if (!pizza) {
+    return (
+      <div className="container fullPizza">
+        <h2>Loading...</h2>
+      </div>
+    )
+  }
 
   return (
     <div className="container fullPizza">
@@ -23,9 +37,9 @@ const FullPizza = () => {
         nam eveniet, mollitia, fugiat molestias similique nisi molestiae! Hic provident totam mollitia perferendis unde
         ipsam.
       </p>
+      <h2 className="fullPizza__price">{pizza.price} руб.</h2>
       <Link className="fullPizza__button" to="/">
-        {' '}
-        Go Home{' '}
+        Go Home
       </Link>
     </div>
   )

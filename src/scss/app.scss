@@ -70,6 +70,7 @@ body {
 
   &__title {
     margin-bottom: 50px;
+    font-weight: 900;
   }
   &__img {
     width: 100%;
@@ -83,6 +84,10 @@ body {
   }
   &__text {
     margin-bottom: 50px;
+  }
+  &__price {
+    margin-bottom: 50px;
+    font-weight: 900;
   }
 }
 
