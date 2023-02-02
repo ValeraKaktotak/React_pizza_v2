@@ -65,6 +65,32 @@ body {
   }
 }
 
+.fullPizza {
+  text-align: center;
+
+  &__title {
+    margin-bottom: 50px;
+    font-weight: 900;
+  }
+  &__img {
+    width: 100%;
+    max-width: 300px;
+    margin-bottom: 50px;
+  }
+  &__button {
+    border: 1px solid #18168d;
+    border-radius: 10px;
+    padding: 10px 20px;
+  }
+  &__text {
+    margin-bottom: 50px;
+  }
+  &__price {
+    margin-bottom: 50px;
+    font-weight: 900;
+  }
+}
+
 .cart {
   &__top {
     display: flex;
