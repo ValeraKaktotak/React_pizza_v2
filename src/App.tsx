@@ -1,15 +1,15 @@
 import React from 'react'
 import { Routes, Route } from 'react-router-dom'
-import MainLayout from './layouts/MainLayout'
-import PromoLayout from './layouts/PromoLayout'
+import MainLayout from 'layouts/MainLayout'
+import PromoLayout from 'layouts/PromoLayout'
 
-import Home from './pages/Home'
-import Cart from './pages/Cart'
-import NotFound from './pages/NotFound'
-import FullPizza from './pages/FullPizza'
-import './scss/app.scss'
+import Home from 'pages/Home'
+import Cart from 'pages/Cart'
+import NotFound from 'pages/NotFound'
+import FullPizza from 'pages/FullPizza'
+import 'scss/app.scss'
 
-const App = () => {
+const App:React.FC = () => {
   return (
     <Routes>
       <Route path="/" element={<MainLayout />}>
