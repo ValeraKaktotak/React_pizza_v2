@@ -1,6 +1,13 @@
+import React from "react"
+
 const categoriesArray = ['Все', 'Мясные', 'Вегетарианская', 'Гриль', 'Острые', 'Закрытые']
 
-function Categories({ categoryValue, onChangeCategory }) {
+type CategoriesProps = {
+  categoryValue: number
+  onChangeCategory: any
+}
+
+const Categories:React.FC<CategoriesProps> = ({ categoryValue, onChangeCategory }) => {
   return (
     <div className="categories">
       <ul>

@@ -1,16 +1,25 @@
-import { useState } from 'react'
+import React, { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
 import { addItem, selectPizzasById } from 'redux/slices/cartSlice'
 
-const PizzaBlock = ({ id, imageUrl, title, price, sizes, types }) => {
+type PizzaBlockProps = {
+  id:string,
+   imageUrl:string,
+    title:string,
+    price:number,
+    sizes:number[], 
+    types:number[]
+}
+
+const PizzaBlock:React.FC<PizzaBlockProps> = ({ id, imageUrl, title, price, sizes, types }) => {
   const dispatch = useDispatch()
 
   const typesNames = ['тонкая', 'традиционная']
-  let [activeType, setActiveType] = useState(types[0])
-  let [pizzaSize, setPizzaSize] = useState(0)
+  let [activeType, setActiveType] = useState<number>(types[0])
+  let [pizzaSize, setPizzaSize] = useState<number>(0)
 
-  const pizzasCount = useSelector(selectPizzasById(id)).reduce((count, obj) => (count += obj.count), 0)
+  const pizzasCount = useSelector(selectPizzasById(id)).reduce((count:number, obj:any) => (count += obj.count), 0)
 
   const onClickAdd = () => {
     const item = {

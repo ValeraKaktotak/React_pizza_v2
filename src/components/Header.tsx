@@ -3,7 +3,7 @@ import Search from 'components/Search'
 import Cart from 'components/Cart'
 import logo from 'assets/img/pizza-logo.svg'
 
-function Header() {
+const Header = () => {
   const location = useLocation()
   return (
     <div className="header">

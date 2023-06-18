@@ -1,11 +1,12 @@
+import React from 'react'
 import { Link } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 import { selectCart } from 'redux/slices/cartSlice'
 
-const Cart = () => {
+const Cart:React.FC = () => {
   const { totalCoast, items } = useSelector(selectCart)
 
-  const count = items.reduce((count, obj) => {
+  const count = items.reduce((count:number, obj:any) => {
     return obj.count + count
   }, 0)
 
