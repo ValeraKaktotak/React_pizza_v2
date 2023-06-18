@@ -1,4 +1,6 @@
-const PromoLayout = () => {
+import React from 'react'
+
+const PromoLayout:React.FC = () => {
   return (
     <div className="wrapper">
       <div className="content">

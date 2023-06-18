@@ -2,8 +2,13 @@ import ReactPaginate from 'react-paginate'
 import { useDispatch, useSelector } from 'react-redux'
 import { setPaginatorPage, selectFilterPaginatorPage } from 'redux/slices/filterSlice'
 import style from './Paginator.module.scss'
+import React from 'react'
 
-function Paginator({ pageCount = 3 }) {
+type pageCountProp = {
+  pageCount?: number
+}
+
+const Paginator:React.FC<pageCountProp> = ({ pageCount = 3 }) => {
   const startPage = useSelector(selectFilterPaginatorPage)
   const dispatch = useDispatch()
   return (

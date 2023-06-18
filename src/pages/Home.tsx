@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react'
+import React, { useEffect, useRef } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
 import qs from 'qs'
@@ -11,7 +11,7 @@ import { sortList } from 'components/Sort'
 import { changeCategory, urlQueryState, selectFilter } from 'redux/slices/filterSlice'
 import { fetchPizzas, selectPizzas } from 'redux/slices/pizzasSlice'
 
-function Home() {
+const Home:React.FC = () => {
   const dispatch = useDispatch()
   const navigate = useNavigate()
 
@@ -26,6 +26,7 @@ function Home() {
 
   //Фун-я которая при вызове делает аксиос запрос
   function axiosPizzas() {
+    //@ts-ignore
     dispatch(fetchPizzas({ categoryValue, searchValue, sortType, sortOrder, paginatorPage }))
   }
 
@@ -68,7 +69,7 @@ function Home() {
       <div className="content__top">
         <Categories
           categoryValue={categoryValue}
-          onChangeCategory={(id) => {
+          onChangeCategory={(id:number) => {
             dispatch(changeCategory(id))
           }}
         />
@@ -88,7 +89,7 @@ function Home() {
         <div className="content__items">
           {status === 'loading'
             ? [...new Array(6)].map((_, index) => <Skeleton key={index} />)
-            : items.map((item, index) => <PizzaBlock key={index} {...item} />)}
+            : items.map((item:any, index:number) => <PizzaBlock key={index} {...item} />)}
         </div>
       )}
       <Paginator />

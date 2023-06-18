@@ -1,29 +1,36 @@
-import { useEffect, useRef, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { changeSortType, changeSortOrder, selectFilter } from 'redux/slices/filterSlice'
 
-export const sortList = [
+type sortListItem = {
+  name: string
+  type: string
+}
+
+export const sortList: sortListItem[] = [
   { name: 'популярности', type: 'rating' },
   { name: 'цене', type: 'price' },
   { name: 'названию', type: 'title' },
 ]
 
-function Sort() {
+const Sort: React.FC = () => {
   const dispatch = useDispatch()
-  const sortRef = useRef()
-  const [open, setOpen] = useState(false)
+  const sortRef = useRef<HTMLDivElement>(null)
+  const [open, setOpen] = useState<boolean>(false)
   const { sortType, sortOrder } = useSelector(selectFilter)
 
-  const onClickSortType = (sortType) => {
+  const onClickSortType = (sortType: sortListItem) => {
     dispatch(changeSortType(sortType))
     setOpen(false)
   }
 
   //хук закрытия окна с сортировкой по клику вне окна
   useEffect(() => {
-    let handler = (e) => {
-      if (!sortRef.current.contains(e.target)) {
-        setOpen(false)
+    let handler = (e: any) => {
+      if(sortRef.current){
+        if (!sortRef.current.contains(e.target)) {
+          setOpen(false)
+        }
       }
     }
     document.body.addEventListener('click', handler)
