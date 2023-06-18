@@ -1,4 +1,4 @@
-import { useCallback, useRef, useState } from 'react'
+import React, { useCallback, useRef, useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { BiSearchAlt } from 'react-icons/bi'
 import { AiOutlineClear } from 'react-icons/ai'
@@ -6,15 +6,15 @@ import debounce from 'lodash.debounce'
 import { changeSearchValue } from 'redux/slices/filterSlice'
 import style from './Search.module.scss'
 
-function Search() {
+const Search:React.FC = () => {
   const dispatch = useDispatch()
   const [inputValue, setInputValue] = useState('')
-  const inputRef = useRef()
+  const inputRef = useRef<HTMLInputElement>(null)
 
   const clearInput = () => {
     setInputValue('')
     dispatch(changeSearchValue(''))
-    inputRef.current.focus()
+    inputRef.current?.focus()
   }
 
   const debounceSearch = useCallback(
@@ -23,7 +23,7 @@ function Search() {
     }, 300),
     [],
   )
-  const changeSearch = (event) => {
+  const changeSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
     setInputValue(event.target.value)
     debounceSearch(event.target.value)
   }

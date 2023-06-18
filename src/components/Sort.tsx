@@ -26,11 +26,10 @@ const Sort: React.FC = () => {
 
   //хук закрытия окна с сортировкой по клику вне окна
   useEffect(() => {
-    let handler = (e: any) => {
-      if(sortRef.current){
-        if (!sortRef.current.contains(e.target)) {
-          setOpen(false)
-        }
+    let handler = (e: MouseEvent) => {
+    const target = e.target as HTMLElement;
+      if (sortRef.current && !sortRef.current.contains(target)) {
+        setOpen(false)
       }
     }
     document.body.addEventListener('click', handler)

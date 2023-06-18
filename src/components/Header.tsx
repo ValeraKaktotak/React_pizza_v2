@@ -2,8 +2,9 @@ import { Link, useLocation } from 'react-router-dom'
 import Search from 'components/Search'
 import Cart from 'components/Cart'
 import logo from 'assets/img/pizza-logo.svg'
+import React from 'react'
 
-const Header = () => {
+const Header:React.FC = () => {
   const location = useLocation()
   return (
     <div className="header">
