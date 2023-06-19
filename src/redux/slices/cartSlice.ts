@@ -1,10 +1,26 @@
-import { createSlice } from '@reduxjs/toolkit'
+import { PayloadAction, createSlice } from '@reduxjs/toolkit'
+import { RootState } from 'redux/store'
 
-const initialState = {
+export type CartItemType = {
+  id: string;
+  title: string;
+  price: number;
+  imageUrl: string;
+  type: string;
+  size: number;
+  count: number;
+};
+
+interface InitialStateType {
+  totalCoast: number,
+  items: CartItemType[],
+}
+
+const initialState: InitialStateType = {
   totalCoast: 0,
   items: [],
 }
-function resetTotalCoast(state) {
+function resetTotalCoast(state: InitialStateType) {
   state.totalCoast = state.items.reduce((sum, obj) => {
     return obj.count * obj.price + sum
   }, 0)
@@ -14,7 +30,7 @@ export const cartSlice = createSlice({
   name: 'cart',
   initialState,
   reducers: {
-    addItem(state, action) {
+    addItem(state, action: PayloadAction<CartItemType>) {
       const findItem = state.items.find(
         (obj) => obj.id === action.payload.id && obj.size === action.payload.size && obj.type === action.payload.type,
       )
@@ -29,7 +45,7 @@ export const cartSlice = createSlice({
 
       resetTotalCoast(state)
     },
-    plusItem(state, action) {
+    plusItem(state, action: PayloadAction<CartItemType>) {
       const findItem = state.items.find(
         (obj) => obj.id === action.payload.id && obj.size === action.payload.size && obj.type === action.payload.type,
       )
@@ -38,7 +54,7 @@ export const cartSlice = createSlice({
         resetTotalCoast(state)
       }
     },
-    minusItem(state, action) {
+    minusItem(state, action: PayloadAction<CartItemType>) {
       const findItem = state.items.find(
         (obj) => obj.id === action.payload.id && obj.size === action.payload.size && obj.type === action.payload.type,
       )
@@ -47,7 +63,7 @@ export const cartSlice = createSlice({
         resetTotalCoast(state)
       }
     },
-    removeItem(state, action) {
+    removeItem(state, action: PayloadAction<CartItemType>) {
       if (window.confirm('Are you sure?')) {
         state.items = state.items.filter(
           (obj) =>
@@ -65,8 +81,8 @@ export const cartSlice = createSlice({
   },
 })
 
-export const selectPizzasById = (id) => (state) => state.cartReducer.items.filter((item) => item.id === id)
-export const selectCart = (state) => state.cartReducer
+export const selectPizzasById = (id:string) => (state: RootState) => state.cartReducer.items.filter((item) => item.id === id)
+export const selectCart = (state: RootState) => state.cartReducer
 
 export const { addItem, removeItem, clearItems, minusItem, plusItem } = cartSlice.actions
 

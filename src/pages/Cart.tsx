@@ -1,15 +1,16 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-import { useSelector, useDispatch } from 'react-redux'
+import { useSelector } from 'react-redux'
 import CartItem from 'components/CartItem'
 import CartEmpty from 'components/CartEmpty'
 import { clearItems, selectCart } from 'redux/slices/cartSlice'
+import { useAppDispatch } from 'redux/store'
 
 const Cart: React.FC = () => {
-  const dispatch = useDispatch()
+  const dispatch = useAppDispatch()
   const { items, totalCoast } = useSelector(selectCart)
 
-  const pizzasCounts:number = items.reduce((count:number, obj:any) => {
+  const pizzasCounts:number = items.reduce((count:number, obj) => {
     return obj.count + count
   }, 0)
 
@@ -86,7 +87,7 @@ const Cart: React.FC = () => {
           </div>
         </div>
         <div className="cart__items">
-          {items.map((item:any, index:number) => (
+          {items.map((item, index:number) => (
             <CartItem key={index} {...item} />
           ))}
         </div>

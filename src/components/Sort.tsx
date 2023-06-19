@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
+import { useSelector } from 'react-redux'
 import { changeSortType, changeSortOrder, selectFilter } from 'redux/slices/filterSlice'
+import { useAppDispatch } from 'redux/store'
 
 type sortListItem = {
   name: string
@@ -14,7 +15,7 @@ export const sortList: sortListItem[] = [
 ]
 
 const Sort: React.FC = () => {
-  const dispatch = useDispatch()
+  const dispatch = useAppDispatch()
   const sortRef = useRef<HTMLDivElement>(null)
   const [open, setOpen] = useState<boolean>(false)
   const { sortType, sortOrder } = useSelector(selectFilter)
@@ -70,7 +71,7 @@ const Sort: React.FC = () => {
               return (
                 <li
                   key={i}
-                  className={sortType.sortType === obj.type ? 'active' : ''}
+                  className={sortType.type === obj.type ? 'active' : ''}
                   onClick={() => {
                     onClickSortType(obj)
                   }}

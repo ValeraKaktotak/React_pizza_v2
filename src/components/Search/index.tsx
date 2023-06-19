@@ -1,13 +1,13 @@
 import React, { useCallback, useRef, useState } from 'react'
-import { useDispatch } from 'react-redux'
 import { BiSearchAlt } from 'react-icons/bi'
 import { AiOutlineClear } from 'react-icons/ai'
 import debounce from 'lodash.debounce'
 import { changeSearchValue } from 'redux/slices/filterSlice'
 import style from './Search.module.scss'
+import { useAppDispatch } from 'redux/store'
 
 const Search:React.FC = () => {
-  const dispatch = useDispatch()
+  const dispatch = useAppDispatch()
   const [inputValue, setInputValue] = useState('')
   const inputRef = useRef<HTMLInputElement>(null)
 

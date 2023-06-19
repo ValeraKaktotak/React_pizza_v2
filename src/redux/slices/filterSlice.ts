@@ -1,4 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit'
+import { RootState } from 'redux/store'
 
 const initialState = {
   categoryValue: 0,
@@ -39,8 +40,8 @@ export const filterSlice = createSlice({
   },
 })
 
-export const selectFilter = (state) => state.filterReducer
-export const selectFilterPaginatorPage = (state) => state.filterReducer.paginatorPage
+export const selectFilter = (state: RootState) => state.filterReducer
+export const selectFilterPaginatorPage = (state: RootState) => state.filterReducer.paginatorPage
 
 export const { changeCategory, changeSortType, changeSortOrder, setPaginatorPage, urlQueryState, changeSearchValue } =
   filterSlice.actions

@@ -1,25 +1,26 @@
 import React, { useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
+import { useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
 import { addItem, selectPizzasById } from 'redux/slices/cartSlice'
+import { useAppDispatch } from 'redux/store'
 
 type PizzaBlockProps = {
   id:string,
-   imageUrl:string,
-    title:string,
-    price:number,
-    sizes:number[], 
-    types:number[]
+  imageUrl:string,
+  title:string,
+  price:number,
+  sizes:number[], 
+  types:number[]
 }
 
 const PizzaBlock:React.FC<PizzaBlockProps> = ({ id, imageUrl, title, price, sizes, types }) => {
-  const dispatch = useDispatch()
+  const dispatch = useAppDispatch()
 
   const typesNames = ['тонкая', 'традиционная']
   let [activeType, setActiveType] = useState<number>(types[0])
   let [pizzaSize, setPizzaSize] = useState<number>(0)
 
-  const pizzasCount = useSelector(selectPizzasById(id)).reduce((count:number, obj:any) => (count += obj.count), 0)
+  const pizzasCount = useSelector(selectPizzasById(id)).reduce((count:number, obj) => (count += obj.count), 0)
 
   const onClickAdd = () => {
     const item = {
@@ -29,6 +30,7 @@ const PizzaBlock:React.FC<PizzaBlockProps> = ({ id, imageUrl, title, price, size
       price,
       type: typesNames[activeType],
       size: sizes[pizzaSize],
+      count: 0,
     }
     dispatch(addItem(item))
   }
