@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { useSelector, useDispatch } from 'react-redux'
+import { useSelector } from 'react-redux'
 import qs from 'qs'
 import Categories from 'components/Categories'
 import Sort from 'components/Sort'
@@ -10,9 +10,10 @@ import Paginator from 'components/Paginator'
 import { sortList } from 'components/Sort'
 import { changeCategory, urlQueryState, selectFilter } from 'redux/slices/filterSlice'
 import { fetchPizzas, selectPizzas } from 'redux/slices/pizzasSlice'
+import { useAppDispatch } from 'redux/store'
 
 const Home:React.FC = () => {
-  const dispatch = useDispatch()
+  const dispatch = useAppDispatch()
   const navigate = useNavigate()
 
   //pizzas reducer
@@ -89,7 +90,7 @@ const Home:React.FC = () => {
         <div className="content__items">
           {status === 'loading'
             ? [...new Array(6)].map((_, index) => <Skeleton key={index} />)
-            : items.map((item:any, index:number) => <PizzaBlock key={index} {...item} />)}
+            : items.map((item, index:number) => <PizzaBlock key={index} {...item} />)}
         </div>
       )}
       <Paginator />
