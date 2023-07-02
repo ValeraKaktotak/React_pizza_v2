@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux'
 import { selectCart } from 'redux/slices/cartSlice'
 
 const Cart:React.FC = () => {
-  const { totalCoast, items } = useSelector(selectCart)
+  const { totalCoast, items} = useSelector(selectCart)
 
   const count = items.reduce((count:number, obj) => {
     return obj.count + count
