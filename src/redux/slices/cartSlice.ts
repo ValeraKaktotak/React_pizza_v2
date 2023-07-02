@@ -1,5 +1,5 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit'
-import { getCartFromLocalStorage, getTotalCostFromLocalStorage } from 'components/utils/getCartFromLocalStorage';
+import { getCartFromLocalStorage } from 'components/utils/getCartFromLocalStorage';
 import { RootState } from 'redux/store'
 
 export type CartItemType = {
@@ -17,10 +17,13 @@ interface InitialStateType {
   items: CartItemType[],
 }
 
+const localStorageData = getCartFromLocalStorage ()
+
 const initialState: InitialStateType = {
-  totalCoast: getTotalCostFromLocalStorage() || 0,
-  items: getCartFromLocalStorage() || [],
+  totalCoast: localStorageData.totalCoast || 0,
+  items: localStorageData.items || [],
 }
+
 function resetTotalCoast(state: InitialStateType) {
   state.totalCoast = state.items.reduce((sum, obj) => {
     return obj.count * obj.price + sum
