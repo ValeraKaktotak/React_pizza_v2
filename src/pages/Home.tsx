@@ -65,14 +65,16 @@ const Home:React.FC = () => {
     isMounted.current = true
   }, [categoryValue, sortType, sortOrder, searchValue, paginatorPage, navigate])
 
+  const changeCatHandle = React.useCallback((id:number) => {
+    dispatch(changeCategory(id))
+  }, [])
+
   return (
     <div className="container">
       <div className="content__top">
         <Categories
           categoryValue={categoryValue}
-          onChangeCategory={(id:number) => {
-            dispatch(changeCategory(id))
-          }}
+          onChangeCategory={changeCatHandle}
         />
         <Sort />
       </div>
