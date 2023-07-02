@@ -70,6 +70,7 @@ export const cartSlice = createSlice({
           (obj) =>
             !(obj.id === action.payload.id && obj.size === action.payload.size && obj.type === action.payload.type),
         )
+        console.log(state.items, state.totalCoast)
         resetTotalCoast(state)
       }
     },
