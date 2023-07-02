@@ -1,5 +1,6 @@
-import React from 'react'
-import { plusItem, minusItem, removeItem, CartItemType } from 'redux/slices/cartSlice'
+import React, { useEffect, useRef } from 'react'
+import { useSelector } from 'react-redux'
+import { plusItem, minusItem, removeItem, CartItemType, selectCart } from 'redux/slices/cartSlice'
 import { useAppDispatch } from 'redux/store'
 
 type CartItemProps = {
@@ -8,6 +9,9 @@ type CartItemProps = {
 
 const CartItem:React.FC<CartItemProps> = ({ id, imageUrl, title, price, type, count, size }) => {
   const dispatch = useAppDispatch()
+  //cart reducer
+  const cartItems = useSelector(selectCart)
+  const isCartMounted = useRef(false)
 
   const clickItemPlus = () => {
     dispatch(plusItem({ id, type, size } as CartItemType))
@@ -18,6 +22,15 @@ const CartItem:React.FC<CartItemProps> = ({ id, imageUrl, title, price, type, co
   const clickItemRemove = () => {
     dispatch(removeItem({ id, type, size } as CartItemType))
   }
+
+  // для localstorage
+  useEffect(() => {
+    if(isCartMounted.current){
+      const json = JSON.stringify(cartItems)
+      localStorage.setItem('pizzaCart', json)
+    }
+    isCartMounted.current = true
+  }, [cartItems])
 
   return (
     <div className="cart__item">

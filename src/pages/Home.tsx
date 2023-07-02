@@ -11,6 +11,7 @@ import { sortList } from 'components/Sort'
 import { changeCategory, urlQueryState, selectFilter } from 'redux/slices/filterSlice'
 import { fetchPizzas, selectPizzas } from 'redux/slices/pizzasSlice'
 import { useAppDispatch } from 'redux/store'
+import { selectCart } from 'redux/slices/cartSlice'
 
 const Home:React.FC = () => {
   const dispatch = useAppDispatch()
@@ -19,17 +20,27 @@ const Home:React.FC = () => {
   //pizzas reducer
   const { items, status } = useSelector(selectPizzas)
 
+  //cart reducer
+  const cartItems = useSelector(selectCart)
+
   //filter reducer
   const { categoryValue, sortType, sortOrder, paginatorPage, searchValue } = useSelector(selectFilter)
 
   let isUrlQuery = useRef(false)
   let isMounted = useRef(false)
+  const isCartMounted = useRef(false)
 
   //Фун-я которая при вызове делает аксиос запрос
   function axiosPizzas() {
     //@ts-ignore
     dispatch(fetchPizzas({ categoryValue, searchValue, sortType, sortOrder, paginatorPage }))
   }
+
+  //функция изменения категории
+  const changeCatHandle = React.useCallback((id:number) => {
+    dispatch(changeCategory(id))
+  }, [])
+
 
   // При первом рендере проверяет адресную строку на наличие параметров, если они есть диспатчит их в редакс
   useEffect(() => {
@@ -65,10 +76,15 @@ const Home:React.FC = () => {
     isMounted.current = true
   }, [categoryValue, sortType, sortOrder, searchValue, paginatorPage, navigate])
 
-  const changeCatHandle = React.useCallback((id:number) => {
-    dispatch(changeCategory(id))
-  }, [])
-
+  // для localstorage
+  useEffect(() => {
+    if(isCartMounted.current){
+      const json = JSON.stringify(cartItems)
+      localStorage.setItem('pizzaCart', json)
+    }
+    isCartMounted.current = true
+  }, [cartItems])
+  
   return (
     <div className="container">
       <div className="content__top">
