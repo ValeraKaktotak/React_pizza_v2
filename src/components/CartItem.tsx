@@ -9,8 +9,10 @@ type CartItemProps = {
 
 const CartItem:React.FC<CartItemProps> = ({ id, imageUrl, title, price, type, count, size }) => {
   const dispatch = useAppDispatch()
+  
   //cart reducer
   const cartItems = useSelector(selectCart)
+  
   const isCartMounted = useRef(false)
 
   const clickItemPlus = () => {
